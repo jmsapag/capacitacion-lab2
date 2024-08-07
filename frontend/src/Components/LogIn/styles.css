@@ -1,0 +1,45 @@
+.card-title{
+    color: black;
+    text-align: center;
+    margin: 15px;
+}
+
+.submit-button{
+    border-radius: 10px;
+    background-color: #A58AFF;
+    border: none;
+    padding: 8px;
+    margin: 5px;
+    cursor: pointer;
+    width: 50%;
+}
+
+a{
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.form-label{
+    margin-top: 15px;
+}
+
+.form-control{
+    border: none;
+    border-radius: 10px;
+}
+
+.card-body{
+    color: black;
+    border-radius: 10px;
+    border: none;
+    box-shadow: none;
+}
+
+body{
+    font-family: Helvetica, serif;
+}
+
+.container{
+    width: 90%;
+}
