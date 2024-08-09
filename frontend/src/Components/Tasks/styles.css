@@ -21,8 +21,8 @@
 
 .input-submit{
     position: absolute;
-    width: 35px;
-    height: 35px;
+    width: 25%;
+    height: 60%;
     margin: 12px;
     border-radius: 50px;
     right: 0px;
@@ -66,9 +66,9 @@
 }
 
 @media (max-width: 700px){
-    .input{
+/*    .input{
         width: 95%;
-    }
+    }*/
     .tasks{
         width: 95%;
     }

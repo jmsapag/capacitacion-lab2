@@ -17,11 +17,11 @@ const Login: FC<SomeComponentProps> = ({ history }): JSX.Element => {
 
     const login = (data: any) => {
         let params = {
-            email: data.email,
+            username: data.email,
             password: data.password,
         };
         axios
-            .post("http://localhost:4000/api/login", params)
+            .post("http://localhost:4000/auth/login", params)
             .then(function (response) {
                 //   IF EMAIL ALREADY EXISTS
                 if (response.data.success === false) {

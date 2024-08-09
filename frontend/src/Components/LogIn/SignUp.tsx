@@ -20,11 +20,10 @@ const SignUp: FC<SomeComponentProps> = ({ history }) => {
             lastname: data.lastname,
             email: data.email,
             password: data.password,
-            confirmpassword: data.cpassword,
         };
         console.log(data);
         axios
-            .post("http://localhost:4000/api/signup", params)
+            .post("http://localhost:4000/auth/signup", params)
             .then(function (response) {
                 toast.success(response.data.message, {
                     position: "top-right",
