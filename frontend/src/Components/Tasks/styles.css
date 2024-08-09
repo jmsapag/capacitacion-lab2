@@ -24,7 +24,7 @@
     width: 25%;
     height: 60%;
     margin: 12px;
-    border-radius: 50px;
+    border-radius: 15px;
     right: 0px;
     border: none;
     font-size: 20px;
@@ -75,4 +75,54 @@
     .cards-form{
         width: 100%;
     }
+}
+
+.navbar {
+    display: flex;
+    justify-content: flex-end; /* Ensure the content is aligned to the right */
+    border-radius: 15px;
+    margin-bottom: 20px;
+    width: 90%;
+    background-color: #A58AFF;
+    padding: 10px;
+
+}
+
+.navbar-content {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Adds space between the title and the buttons */
+}
+
+.navbar-title {
+    margin: 0;
+    font-size: 24px;
+}
+
+.navbar-buttons {
+    display: flex;
+    gap: 10px; /* Adds space between the buttons */
+}
+
+.navbar-button {
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: transparent;
+    padding-right: 15px;
+    padding-left: 15px;
+    transition: background-color 0.2s;
+}
+
+.navbar-button:hover {
+    background-color: #8F77FF;
+}
+
+.logout-button {
+    background-color: #FF6F61;
+}
+
+.logout-button:hover {
+    background-color: #FF4C3A;
 }

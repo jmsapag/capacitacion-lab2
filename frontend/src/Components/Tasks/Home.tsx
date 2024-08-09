@@ -10,10 +10,10 @@ type SomeComponentProps = RouteComponentProps;
 
 const Home: FC<SomeComponentProps> = ({ history }) => {
 
-    const logout = () => {
-        localStorage.clear();
-        history.push("/login");
+    const goToProfile = () => {
+        history.push('/profile');
     };
+
 
     const [task, setTask] = useState<string>("");
     const [tasks, setTasks] = useState<ToDo[]>([]);
@@ -29,13 +29,15 @@ const Home: FC<SomeComponentProps> = ({ history }) => {
   return (
       <div className="App">
           <span className="heading">To-Do List</span>
+          <nav className="navbar">
+              <div className="navbar-buttons">
+                  <button onClick={goToProfile} className="navbar-button">
+                      Profile
+                  </button>
+              </div>
+          </nav>
           <InputField task={task} setTask={setTask} handleAddTask={handleAddTask}/>
           <ToDoList tasks={tasks} setTasks={setTasks}/>
-          <div>
-              <button type="submit" className="buttons" onClick={logout}>
-                  Logout
-              </button>
-          </div>
       </div>
   );
 }

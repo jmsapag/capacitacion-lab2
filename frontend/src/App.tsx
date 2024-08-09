@@ -7,6 +7,7 @@ import PrivateRoute from "./Auth/PrivateRoute";
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import RestrictedRoute from "./Auth/RestrictedRoute";
 import Home from "./Components/Tasks/Home";
+import UserProfile from "./Components/Profile/UserProfile";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <PrivateRoute exact path="/" component={Home}/>
                 <RestrictedRoute exact path="/login" component={Login} />
                 <Route exact path="/register" component={SignUp} />
+                <PrivateRoute exact path="/profile" component={UserProfile}/>
             </Switch>
         </BrowserRouter>
     );
