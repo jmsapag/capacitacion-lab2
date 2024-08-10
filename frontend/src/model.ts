@@ -1,5 +1,16 @@
 export interface ToDo {
-    id: number;
-    task: string;
-    isCompleted: boolean;
+    "id": number,
+    "name": string,
+    "userId": number,
+    "completed": boolean,
+    "createdAt": string,
+    "updatedAt": string,
+    "user": {
+        "id": number,
+        "firstname": string,
+        "lastname": string,
+        "email": string,
+        "createdAt": string,
+        "updatedAt": string
+    }
 }

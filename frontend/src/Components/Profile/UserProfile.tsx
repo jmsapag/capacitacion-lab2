@@ -1,6 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import axios from 'axios';
 import {RouteComponentProps} from "react-router-dom";
+import './styles.css'
 
 interface UserProfile {
     id: number;

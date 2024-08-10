@@ -10,7 +10,7 @@
     padding: 15px 15px;
     border: 1px solid #ccc;
     border-radius: 15px;
-    font-size: 16px;
+    font-size: 14px;
     outline: none;
     transition: 0.2s;
 }
@@ -27,7 +27,7 @@
     border-radius: 15px;
     right: 0px;
     border: none;
-    font-size: 20px;
+    font-size: 14px;
     background-color: #BAA5FF;
     transition: 0.2s all;
 }
@@ -56,7 +56,7 @@
     flex: 1;
     padding: 5px;
     border: none;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .card-icon{
@@ -107,7 +107,7 @@
 .navbar-button {
     border: none;
     border-radius: 15px;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     background-color: transparent;
     padding-right: 15px;

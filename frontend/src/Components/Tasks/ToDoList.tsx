@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles.css'
+import './Tasks.css'
 import {ToDo} from "../../model";
 import ToDoCard from "./ToDoCard";
 
