@@ -4,6 +4,8 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import {SequelizeModule} from "@nestjs/sequelize";
 import {User} from "./modules/users/user.entity";
+import { TasksModule } from './modules/tasks/tasks.module';
+import {Task} from "./modules/tasks/task.entity";
 
 @Module({
   imports: [
@@ -16,10 +18,11 @@ import {User} from "./modules/users/user.entity";
       database: 'postgres',
       autoLoadModels: true,
       synchronize: true,
-      models: [User],
+      models: [User, Task],
     }),
       UsersModule,
       AuthModule,
+      TasksModule,
   ],
     controllers: [],
     providers: [],
