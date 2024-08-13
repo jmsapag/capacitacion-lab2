@@ -52,7 +52,7 @@ const SignUp: FC<SomeComponentProps> = ({ history }) => {
                     className="row d-flex justify-content-center align-items-center"
                     style={{ height: "100vh" }}
                 >
-                    <div className="card mb-3 mt-3 rounded" style={{ maxWidth: "500px" , backgroundColor: "#BAA5FF"}}>
+                    <div className="card mb-3 mt-3 rounded" style={{ maxWidth: "500px"}}>
                         <div className="col-md-12">
                             <div className="card-body">
                                 <h3 className="card-title">

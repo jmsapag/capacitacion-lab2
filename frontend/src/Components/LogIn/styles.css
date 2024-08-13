@@ -6,16 +6,17 @@
 
 .submit-button{
     border-radius: 10px;
-    background-color: #A58AFF;
+    background-color: #BAA5FF;
     border: none;
     padding: 8px;
     margin: 5px;
     cursor: pointer;
     width: 50%;
+    color: white;
 }
 
 .submit-button:hover{
-    background-color: #8A5AFF;
+    background-color: #A58AFF;
 }
 
 a{
@@ -29,7 +30,7 @@ a{
 }
 
 .form-control{
-    border: none;
+    border: grey solid 1px;
     border-radius: 10px;
 }
 

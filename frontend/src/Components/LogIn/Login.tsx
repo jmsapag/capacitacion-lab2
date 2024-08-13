@@ -65,7 +65,7 @@ const Login: FC<SomeComponentProps> = ({ history }): JSX.Element => {
                     className="row d-flex justify-content-center align-items-center"
                     style={{ height: "100vh" }}
                 >
-                    <div className="card mb-3" style={{ maxWidth: "320px", backgroundColor: "#BAA5FF" }}>
+                    <div className="card mb-3" style={{ maxWidth: "320px"}}>
                         <div className="col-md-12">
                             <div className="card-body">
                                 <h3 className="card-title">

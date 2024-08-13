@@ -55,23 +55,26 @@ const UserProfile: FC<SomeComponentProps> = ({ history }) => {
     }
 
     return (
-        <div className="App">
-            <span className="heading">User Profile</span>
+        <div className="profile-container">
+
+            <h1 className="heading">User Profile</h1>
 
             <nav className="navbar">
-                <div className="navbar-buttons">
-                    <button onClick={goToHome} className="navbar-button">
-                        To-Do
-                    </button>
-                    <button onClick={logout} className="navbar-button">
-                        Logout
-                    </button>
-                </div>
+                <button onClick={goToHome} className="navbar-button">
+                    To-Do
+                </button>
+                <button onClick={logout} className="navbar-button">
+                    Logout
+                </button>
             </nav>
 
-            <p><strong>First Name:</strong> {user.firstname}</p>
-            <p><strong>Last Name:</strong> {user.lastname}</p>
-            <p><strong>Email:</strong> {user.email}</p>
+            <div className="profile-card">
+                <div className="profile-info">
+                    <p><strong>First Name:</strong> {user.firstname}</p>
+                    <p><strong>Last Name:</strong> {user.lastname}</p>
+                    <p><strong>Email:</strong> {user.email}</p>
+                </div>
+            </div>
         </div>
     );
 };
