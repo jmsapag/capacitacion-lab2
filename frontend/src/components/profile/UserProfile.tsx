@@ -1,7 +1,7 @@
-import React, {FC, useEffect, useState} from 'react';
-import axios from 'axios';
-import {RouteComponentProps} from "react-router-dom";
-import './styles.css'
+import React, { FC, useEffect, useState } from 'react';
+import { RouteComponentProps } from "react-router-dom";
+import { getUserProfile } from "../../services/userService";
+import './styles.css';
 
 interface UserProfile {
     id: number;
@@ -14,7 +14,6 @@ interface UserProfile {
 }
 
 type SomeComponentProps = RouteComponentProps;
-
 
 const UserProfile: FC<SomeComponentProps> = ({ history }) => {
     const [user, setUser] = useState<UserProfile | null>(null);
@@ -33,12 +32,8 @@ const UserProfile: FC<SomeComponentProps> = ({ history }) => {
             try {
                 const token = localStorage.getItem('auth'); // Assuming the token is stored in localStorage
                 if (token) {
-                    const response = await axios.get<UserProfile>('http://localhost:4000/users/profile', {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    });
-                    setUser(response.data);
+                    const userProfile = await getUserProfile(token);
+                    setUser(userProfile);
                 } else {
                     console.log('No token found');
                 }
@@ -56,9 +51,7 @@ const UserProfile: FC<SomeComponentProps> = ({ history }) => {
 
     return (
         <div className="profile-container">
-
             <h1 className="heading">User Profile</h1>
-
             <nav className="navbar">
                 <button onClick={goToHome} className="navbar-button">
                     To-Do
@@ -67,7 +60,6 @@ const UserProfile: FC<SomeComponentProps> = ({ history }) => {
                     Logout
                 </button>
             </nav>
-
             <div className="profile-card">
                 <div className="profile-info">
                     <p><strong>First Name:</strong> {user.firstname}</p>
