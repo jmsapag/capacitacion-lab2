@@ -1,13 +1,15 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import SignUp from "./Components/LogIn/SignUp";
-import Login from "./Components/LogIn/Login";
-import PrivateRoute from "./Auth/PrivateRoute";
+import SignUp from "./components/logIn/SignUp";
+import Login from "./components/logIn/Login";
+import PrivateRoute from "./auth/PrivateRoute";
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import RestrictedRoute from "./Auth/RestrictedRoute";
-import Home from "./Components/Tasks/Home";
-import UserProfile from "./Components/Profile/UserProfile";
+import RestrictedRoute from "./auth/RestrictedRoute";
+import Home from "./components/tasks/Home";
+import UserProfile from "./components/profile/UserProfile";
+import { ToastContainer, Flip } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 function App() {
     return (

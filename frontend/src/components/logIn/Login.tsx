@@ -1,61 +1,38 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
-import { ToastContainer, toast, Flip } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
 import { RouteComponentProps } from "react-router";
 import './styles.css'
+import { loginService } from "../../services/authService";
+import { showToastSuccess, showToastError } from "../../utils/toastUtils";
+import {Flip, ToastContainer} from "react-toastify";
+
 
 type SomeComponentProps = RouteComponentProps;
 const Login: FC<SomeComponentProps> = ({ history }): JSX.Element => {
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
 
-    const login = (data: any) => {
-        let params = {
-            username: data.email,
-            password: data.password,
-        };
-        axios
-            .post("http://localhost:4000/auth/login", params)
-            .then(function (response) {
-                //   IF EMAIL ALREADY EXISTS
-                if (response.data.success === false) {
-                    toast.error(response.data.error, {
-                        position: "top-right",
-                        autoClose: 3000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: false,
-                        progress: 0,
-                        toastId: "my_toast",
-                    });
-                } else {
-                    toast.success(response.data.message, {
-                        position: "top-right",
-                        autoClose: 3000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: false,
-                        progress: 0,
-                        toastId: "my_toast",
-                    });
-                    localStorage.setItem("auth", response.data.token);
-                    setTimeout(() => {
-                        history.push("/");
-                    }, 3000);
-                }
-            })
+    const login = async (data: any) => {
+        try {
+            const response = await loginService(data.email, data.password);
+            if (response.success === false) {
+                showToastError(response.error);
+            } else {
+                showToastSuccess(response.message);
+                localStorage.setItem("auth", response.token);
+                setTimeout(() => {
+                    history.push("/");
+                }, 1000);
+            }
+        } catch (error) {
+            console.error("Error during login request", error);
+        }
 
-            .catch(function (error) {
-                console.log(error);
-            });
     };
 
     return (
