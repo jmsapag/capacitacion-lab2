@@ -1,22 +1,13 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { RouteComponentProps } from "react-router-dom";
-import { getUserProfile } from "../../services/userService";
 import './styles.css';
-
-interface UserProfile {
-    id: number;
-    firstname: string;
-    lastname: string;
-    email: string;
-    password: string;
-    createdAt: string;
-    updatedAt: string;
-}
+import { useProfile } from "../../hooks/useProfile";
 
 type SomeComponentProps = RouteComponentProps;
 
 const UserProfile: FC<SomeComponentProps> = ({ history }) => {
-    const [user, setUser] = useState<UserProfile | null>(null);
+
+    const { user, loading, fetchUserProfile } = useProfile();
 
     const logout = () => {
         localStorage.clear();
@@ -28,25 +19,15 @@ const UserProfile: FC<SomeComponentProps> = ({ history }) => {
     };
 
     useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                const token = localStorage.getItem('auth'); // Assuming the token is stored in localStorage
-                if (token) {
-                    const userProfile = await getUserProfile(token);
-                    setUser(userProfile);
-                } else {
-                    console.log('No token found');
-                }
-            } catch (error) {
-                console.error('Error fetching user profile', error);
-            }
-        };
-
         fetchUserProfile();
     }, []);
 
-    if (!user) {
+    if (loading) {
         return <p>Loading...</p>;
+    }
+
+    if (!user) {
+        return <p>No user profile found.</p>;
     }
 
     return (

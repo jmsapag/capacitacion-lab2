@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 
+// Function to show success toast
 export const showToastSuccess = (message: string) => {
     toast.success(message, {
         position: "top-right",
@@ -13,6 +14,7 @@ export const showToastSuccess = (message: string) => {
     });
 };
 
+// Function to show error toast
 export const showToastError = (message: string) => {
     toast.error(message, {
         position: "top-right",
