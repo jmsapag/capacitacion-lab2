@@ -1,23 +1,13 @@
-import React, {FC, useEffect, useState} from 'react';
-import axios from 'axios';
-import {RouteComponentProps} from "react-router-dom";
-import './styles.css'
-
-interface UserProfile {
-    id: number;
-    firstname: string;
-    lastname: string;
-    email: string;
-    password: string;
-    createdAt: string;
-    updatedAt: string;
-}
+import React, { FC, useEffect } from 'react';
+import { RouteComponentProps } from "react-router-dom";
+import './styles.css';
+import { useProfile } from "../../hooks/useProfile";
 
 type SomeComponentProps = RouteComponentProps;
 
-
 const UserProfile: FC<SomeComponentProps> = ({ history }) => {
-    const [user, setUser] = useState<UserProfile | null>(null);
+
+    const { user, loading, fetchUserProfile } = useProfile();
 
     const logout = () => {
         localStorage.clear();
@@ -29,36 +19,20 @@ const UserProfile: FC<SomeComponentProps> = ({ history }) => {
     };
 
     useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                const token = localStorage.getItem('auth'); // Assuming the token is stored in localStorage
-                if (token) {
-                    const response = await axios.get<UserProfile>('http://localhost:4000/users/profile', {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    });
-                    setUser(response.data);
-                } else {
-                    console.log('No token found');
-                }
-            } catch (error) {
-                console.error('Error fetching user profile', error);
-            }
-        };
-
         fetchUserProfile();
     }, []);
 
-    if (!user) {
+    if (loading) {
         return <p>Loading...</p>;
+    }
+
+    if (!user) {
+        return <p>No user profile found.</p>;
     }
 
     return (
         <div className="profile-container">
-
             <h1 className="heading">User Profile</h1>
-
             <nav className="navbar">
                 <button onClick={goToHome} className="navbar-button">
                     To-Do
@@ -67,7 +41,6 @@ const UserProfile: FC<SomeComponentProps> = ({ history }) => {
                     Logout
                 </button>
             </nav>
-
             <div className="profile-card">
                 <div className="profile-info">
                     <p><strong>First Name:</strong> {user.firstname}</p>

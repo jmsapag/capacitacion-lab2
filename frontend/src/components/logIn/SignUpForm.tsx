@@ -1,8 +1,7 @@
 import React, { FC } from "react";
 import { useForm } from "react-hook-form";
-import { showToastSuccess, showToastError } from "../../utils/toastUtils";
-import { signupService } from "../../services/authService";
 import { RouteComponentProps, Link } from "react-router-dom";
+import {useAuth} from "../../hooks/useAuth"
 
 type SignUpFormProps = RouteComponentProps;
 
@@ -15,17 +14,10 @@ const SignUpForm: FC<SignUpFormProps> = ({ history }) => {
         formState: { errors },
     } = useForm();
 
+    const {handleSignup} = useAuth()
+
     const submitData = async (data: any) => {
-        try {
-            const response = await signupService(data.firstname, data.lastname, data.email, data.password);
-            showToastSuccess(response.message);
-            reset();
-            setTimeout(() => {
-                history.push("/login");
-            }, 1000);
-        } catch (error) {
-            showToastError("Signup failed. Please try again.");
-        }
+        await handleSignup(data.firstname, data.lastname, data.email, data.password)
     };
 
     return (

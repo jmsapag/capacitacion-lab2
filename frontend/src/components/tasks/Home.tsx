@@ -1,80 +1,134 @@
-import React, {useState, FC, useEffect} from 'react';
+import React, { useState, FC, useEffect, useRef } from 'react';
 import './Home.css';
 import InputField from "./InputField";
-import {ToDo} from "../../model";
-import ToDoList from "./ToDoList";
 import { RouteComponentProps } from "react-router-dom";
-import axios from "axios";
+import { useTasks } from "../../hooks/useTasks";
+import { AiFillEdit } from "react-icons/ai";
+import { MdDelete, MdDone } from "react-icons/md";
 
-type SomeComponentProps = RouteComponentProps;
+type HomeProps = RouteComponentProps;
 
-
-const Home: FC<SomeComponentProps> = ({ history }) => {
+const Home: FC<HomeProps> = ({ history }) => {
 
     const [task, setTask] = useState<string>("");
-    const [tasks, setTasks] = useState<ToDo[]>([]);
+    const [editId, setEditId] = useState<number | null>(null);
+    const [editTask, setEditTask] = useState<string>("");
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const { tasks, fetchTasks, addTask, handleDone, handleDelete, handleEdit, loading } = useTasks();
+    const token = localStorage.getItem('auth');
+
+    useEffect(() => {
+        fetchTasks();
+    }, []);
+
+    useEffect(() => {
+        if (inputRef.current && editId !== null) {
+            inputRef.current.focus();
+        }
+    }, [editId]);
 
     const goToProfile = () => {
         history.push('/profile');
     };
 
-    const fetchTasks = async () => {
-        try {
-            const token = localStorage.getItem('auth');
-            const response = await axios.get('http://localhost:4000/tasks', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setTasks(response.data);
-        } catch (error) {
-            console.error('Error fetching tasks:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchTasks(); // Fetch tasks when component mounts
-    }, []);
-
-
     const handleAddToDo = async (e: React.FormEvent) => {
         e.preventDefault();
-        try {
-            const token = localStorage.getItem('auth');
-            let params = {
-                name: task,
-                completed: false
-            }
-            const response = await axios.post(
-                'http://localhost:4000/tasks', params,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            console.log('Task created:', response.data);
+        if (task.trim()) {
+            await addTask(task);
             setTask('');
-            window.location.reload();
-        } catch (error) {
-            console.error('Error creating task:', error);
         }
     };
 
-  return (
-      <div className="App">
-          <span className="heading">To-Do List</span>
-          <nav className="navbar">
-              <div className="navbar-buttons">
-                  <button onClick={goToProfile} className="navbar-button">
-                      Profile
-                  </button>
-              </div>
-          </nav>
-          <InputField task={task} setTask={setTask} handleAddToDo={handleAddToDo}/>
-          <ToDoList tasks={tasks} setTasks={setTasks}/>
-      </div>
-  );
-}
+    const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (token && editId !== null) {
+            await handleEdit(editId, editTask, token);
+            setEditId(null);
+            setEditTask('');
+        } else {
+            console.error('No token found or no task selected for editing');
+        }
+    };
+
+    return (
+        <div className="App">
+            <span className="heading">To-Do List</span>
+            <nav className="navbar">
+                <div className="navbar-buttons">
+                    <button onClick={goToProfile} className="navbar-button">
+                        Profile
+                    </button>
+                </div>
+            </nav>
+            <InputField task={task} setTask={setTask} handleAddToDo={handleAddToDo} />
+            {loading ? <p>Loading...</p> :
+                <div className="tasks">
+                    {tasks.map(task => (
+                        <form key={task.id} className="cards-form" onSubmit={handleEditSubmit}>
+                            {editId === task.id ? (
+                                <input
+                                    ref={inputRef}
+                                    value={editTask}
+                                    onChange={(e) => setEditTask(e.target.value)}
+                                    className="task-card"
+                                />
+                            ) : (
+                                task.completed ? (
+                                    <s className="task-card">{task.name}</s>
+                                ) : (
+                                    <span className="task-card">{task.name}</span>
+                                )
+                            )}
+                            <div>
+                                {editId === task.id ? (
+                                    <button type="submit" className="card-icon">Save</button>
+                                ) : (
+                                    <>
+                                        <span
+                                            className="card-icon"
+                                            onClick={() => {
+                                                if (!task.completed) {
+                                                    setEditId(task.id);
+                                                    setEditTask(task.name);
+                                                }
+                                            }}
+                                        >
+                                            <AiFillEdit />
+                                        </span>
+                                        <span
+                                            className="card-icon"
+                                            onClick={() => {
+                                                if (token) {
+                                                    handleDelete(task.id, token);
+                                                } else {
+                                                    console.error('No token found');
+                                                }
+                                            }}
+                                        >
+                                            <MdDelete />
+                                        </span>
+                                        <span
+                                            className="card-icon"
+                                            onClick={() => {
+                                                if (token) {
+                                                    handleDone(task.id, token);
+                                                } else {
+                                                    console.error('No token found');
+                                                }
+                                            }}
+                                        >
+                                            <MdDone />
+                                        </span>
+                                    </>
+                                )}
+                            </div>
+                        </form>
+                    ))}
+                </div>
+            }
+        </div>
+    );
+};
 
 export default Home;

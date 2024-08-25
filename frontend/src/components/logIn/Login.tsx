@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { RouteComponentProps } from "react-router";
 import './styles.css'
-import { loginService } from "../../services/authService";
-import { showToastSuccess, showToastError } from "../../utils/toastUtils";
 import {Flip, ToastContainer} from "react-toastify";
-
+import {useAuth} from "../../hooks/useAuth"
 
 type SomeComponentProps = RouteComponentProps;
 const Login: FC<SomeComponentProps> = ({ history }): JSX.Element => {
@@ -17,22 +15,10 @@ const Login: FC<SomeComponentProps> = ({ history }): JSX.Element => {
         formState: { errors },
     } = useForm();
 
-    const login = async (data: any) => {
-        try {
-            const response = await loginService(data.email, data.password);
-            if (response.success === false) {
-                showToastError(response.error);
-            } else {
-                showToastSuccess(response.message);
-                localStorage.setItem("auth", response.token);
-                setTimeout(() => {
-                    history.push("/");
-                }, 1000);
-            }
-        } catch (error) {
-            console.error("Error during login request", error);
-        }
+    const {handleLogin} = useAuth();
 
+    const login = async (data: any) => {
+        await handleLogin(data.email, data.password);
     };
 
     return (
